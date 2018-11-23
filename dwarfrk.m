@@ -1,6 +1,6 @@
 %input state as [mass, density]
-function dstatedr = dwarfrk(state, radius, param)
-
+function dstatedr = dwarfrk(radius, state, param)
+    state
     %get state variables
     mass = state(1);
     density = state(2);
@@ -15,7 +15,7 @@ function dstatedr = dwarfrk(state, radius, param)
     
     
     %Set dstate/dr
-    dstatedr = [dmdr, dpdr];
+    dstatedr = [dmdr; dpdr];
 
     
 end
