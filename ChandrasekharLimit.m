@@ -7,10 +7,10 @@ ue = 2;    %number
 
 %Setup initial conditions
 centralMass = 0;
-centralDensity = 20000000;
+centralDensity = 20000;
 
 %Setup radius step
-radStep = 0.0001;
+radStep = 0.01;
 
 
 
@@ -21,8 +21,8 @@ radStep = 0.0001;
 scaledState = real(scaledState);
 %Remove negatives
 negatives = find((scaledState(:,1)<0)|(scaledState(:,2)<0));
-scaledRadius(negatives(1):end,:) = [];
-scaledState(negatives(1):end,:) = [];
+scaledRadius(negatives(2):end,:) = [];
+scaledState(negatives(2):end,:) = [];
 
 %Initialize new unscaled arrays
 state = [];
@@ -36,12 +36,14 @@ radius(:,1) = ((7.72*(10^8))/(ue)).*scaledRadius(:,1);
 
 %Interpolate to find the Chandrasekhar limit
 [x, index] = unique(state(:,2)); 
-climitRK = interp1(x, radius(index,1), 0, 'pchip');
-plot([0 max(state(:,1))], [climitRK climitRK] , 'k--');
-
-disp(climitRK);
-
+RKclimitR = interp1(x, radius(index,1), 0, 'pchip');
+RKclimitM = interp1(x, state(index,1), 0, 'pchip');
 hold on
+plot([0 max(state(:,1))], [RKclimitR RKclimitR] , 'k--');
+plot([RKclimitM RKclimitM],[0 max(radius(:,1))]  , 'k--');
+
+disp(RKclimitR);
+
 %Plot R vs M 
 plot(state(:,1),radius(:,1),'b');
 
@@ -53,8 +55,8 @@ plot(state(:,1),radius(:,1),'b');
 scaledState = real(scaledState);
 %Remove negatives
 negatives = find((scaledState(:,1)<0)|(scaledState(:,2)<0));
-scaledRadius(negatives(1):end,:) = [];
-scaledState(negatives(1):end,:) = [];
+scaledRadius(negatives(2):end,:) = [];
+scaledState(negatives(2):end,:) = [];
 
 %Initialize new unscaled arrays
 state = [];
@@ -68,8 +70,10 @@ radius(:,1) = ((7.72*(10^8))/(ue)).*scaledRadius(:,1);
 
 %Interpolate to find the Chandrasekhar limit
 [x, index] = unique(state(:,2)); 
-climitODE = interp1(x, radius(index,1), 0, 'pchip');
-plot([0 max(state(:,1))], [climitODE climitODE] , 'r--');
+ODEclimitR = interp1(x, radius(index,1), 0, 'pchip');
+ODEclimitM = interp1(x, state(index,1), 0, 'pchip');
+plot([0 max(state(:,1))], [ODEclimitR ODEclimitR] , 'r--');
+plot([ODEclimitM ODEclimitM],[0 max(radius(:,1))]  , 'r--');
 
 hold on
 %Plot R vs M 
