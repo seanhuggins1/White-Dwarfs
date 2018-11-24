@@ -1,14 +1,19 @@
-function [newstate,newIndepVar] = RK2Integrator(state,indepVar,step,derivsRK,param)
+function [indepVar,state] = RK2Integrator(derivsRK, indepVarSpan,  step, initialState )
 
-    %Calculate xstar
-    xstar = state + ((1/2)*step).*feval(derivsRK, state, indepVar, param);
-    %Update the state using 2nd order Runge Kutta
-    newstate = state + step.*feval(derivsRK, xstar, indepVar + (1/2)*step, param);
 
-    %Return our independent variable along with the state
-    newIndepVar = indepVar + step;
+state(:,1) = initialState;
+indepVar(:,1) = indepVarSpan(1);
+
+for j = 1:((indepVarSpan(end) - indepVarSpan(1))/step)
+
+    size(RK2Step(derivsRK, indepVar(:,j), step, state(:, j)));
+    [indepVar(:, j+1), state(:, j+1)] = RK2Step(derivsRK, indepVar(:,j), step, state(:, j));
     
     
-   
+    
+end
+
+indepVar = indepVar';
+state = state';
 end
 
