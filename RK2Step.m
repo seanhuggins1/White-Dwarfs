@@ -4,7 +4,6 @@ function [newIndepVar, newState] = RK2Step(derivsRK, indepVar, step, state)
     xstar = state + ((1/2)*step).*feval(derivsRK, indepVar, state);
     %Update the state using 2nd order Runge Kutta
     newState = state + step.*feval(derivsRK,indepVar + (1/2)*step, xstar);
-    size(newState)
 
     
     %Return our independent variable along with the state

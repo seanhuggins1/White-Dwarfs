@@ -4,9 +4,8 @@ function [indepVar,state] = RK2Integrator(derivsRK, indepVarSpan,  step, initial
 state(:,1) = initialState;
 indepVar(:,1) = indepVarSpan(1);
 
-for j = 1:((indepVarSpan(end) - indepVarSpan(1))/step)
-
-    size(RK2Step(derivsRK, indepVar(:,j), step, state(:, j)));
+for j = 1:(((indepVarSpan(end) - indepVarSpan(1))/step)-1)
+    
     [indepVar(:, j+1), state(:, j+1)] = RK2Step(derivsRK, indepVar(:,j), step, state(:, j));
     
     
