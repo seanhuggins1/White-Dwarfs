@@ -1,0 +1,62 @@
+% function dstatedt = springrk(time, state)
+%
+% Function returns the two coupled first order ODEs for the motion of a
+% damped harmonic oscillator
+%
+%
+% Required Input:
+% ===============
+%
+% time	(:) initial speed of the ball when hit off home plate.
+% time (:) initial angle of the ball from the horizontal.
+% 
+%
+% 
+% 
+% Output:
+% =======
+%
+% range	(:) outputs the range of the trajectory or the x-intercept (the x position when the
+%           ball hits the ground).
+% height (:) outputs the height of the ball at the length of the pitch, or
+%            the fence-intercept.
+%
+% Varargin:
+% =========
+%
+% 'air'             [1] set to 0 to turn air resistance off
+% 'plot'            [1] set to 0 to turn trajectory plotting off
+% 'x-intercept'     [0] set to 1 to show the x-intercept on the plot
+% 'fence-intercept'	[0] set to 1 to show the fence-intercept on the plot
+%
+% Requires: no external m-files
+% =========
+%
+% Example Use: [range,height] = baseball(30, 45, 0.1, 'euler-cromer', 'air', 0, 'x-intercept', 1);
+% ============
+%
+% Author:
+% =======
+%
+% SHuggins 7 Oct. 2018
+%
+
+%input state as [mass, density]
+function dstatedt = springrk(time, state)
+    %get state variables
+    v = state(1);
+    x = state(2);
+    k = 15;
+    m = 2;
+    c = 0.5;
+  
+    dvdt = (-k/m)*x - (c/m)*v;
+    
+    dxdt = v;
+
+    %Set dstate/dr
+    dstatedt = [dvdt; dxdt];
+    
+end
+
+

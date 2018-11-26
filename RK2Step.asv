@@ -1,12 +1,12 @@
-% function [newIndepVar, newState] = RK2Step(derivsRK, indepVar, step, state)
+% function [indepVar,state] = RK2Integrator(derivsRK, indepVarSpan,  step, initialState )
 %
-% RK2Step performs a single forward step of a numerical integration using
-% the second order Runge Kutta scheme
+% RK2Integrator performs an integration of a system of coupled first order
+% ODEs pertaining to a problem we wish to solve
 %
 % Required Input:
 % ===============
 %
-% derivsRK (:) the name of a function which returns derivatives of state
+% derivsRK	(:) the name of a function which returns derivatives of state
 %               variables with respect to the independent variable, and pertains to the
 %               problem we wish to solve
 % indepVar (:) the current value of the independent variable
@@ -16,14 +16,14 @@
 % Output:
 % =======
 %
-% newIndepVar (:) returns the value of the independent variable at a
+% newIndepVar	(:) returns the value of the independent variable at a
 %                   forward integration step
 % newState (:) returns the value of the state variables at a forward integration step            
 %
 % Requires: no external m-files
 % =========
 %
-% Example Use: [newIndepVar,newState] = RK2Step('ballrk', 6, 0.01, [5; 8; 3; 7]);
+% Example Use: [dvdt,dxdt] = RK2Step('ballrk', 6, 0.01, [5; 8; 3; 7]);
 % ============
 %
 % Author:
@@ -35,11 +35,10 @@ function [newIndepVar, newState] = RK2Step(derivsRK, indepVar, step, state)
 
     %Calculate xstar
     xstar = state + ((1/2)*step).*feval(derivsRK, indepVar, state);
-    
     %Update the state using 2nd order Runge Kutta
     newState = state + step.*feval(derivsRK,indepVar + (1/2)*step, xstar);
  
-    %Return our updated independent variable along with the updated state
+    %Return our independent variable along with the state
     newIndepVar = indepVar + step;
      
 end

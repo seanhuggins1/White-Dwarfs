@@ -273,9 +273,14 @@ legend([p1 p2 ebars climitRK climitODE],'RK2','ODE45',...
 % The values are displayed in the legend
 %%
 % The results from RK2 line up very nicely with the results from ODE45. The
-% discrepancy between the two results becomes more apparent closer to the
-% Chandrasekhar limit.
-%
+% discrepancy becomes more apparent when we zoom in towards the
+% Chandrasekhar limit
+
+newplot = copyobj(gcf,0);
+axis([2.82e33 2.9e33 1e7 RKR(end - 10)]);
+%%
+% *Figure 4:* Zoomed view of Figure 3 near the Chandrasekhar limit
+%%
 % The difference between the ODE45 result and the RK2 result is resolved
 % when we choose a smaller integration step. A percent difference
 % calculation comparing the RK2 & ODE45 limits is done below:

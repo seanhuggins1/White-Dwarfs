@@ -23,7 +23,7 @@
 % Requires: RK2Step.m
 % =========
 %
-% Example Use: [indepVar,state] = RK2Integrator('ballrk', [1 10], 0.01, [5; 10; 0; 1]);
+% Example Use: [dvdt,dxdt] = springrk('ballrk', [1 10], 0.01, [5; 10; 0; 1]);
 % ============
 %
 % Author:
@@ -35,16 +35,18 @@ function [indepVar,state] = RK2Integrator(derivsRK, indepVarSpan,  step, initial
 
 %Place the initial state in the first spot of the state array
 state(:,1) = initialState;
-%Place the initial independent variable in its first spot
+
+
 indepVar(:,1) = indepVarSpan(1);
 
-%Integrate over the entire independent variable span
 for j = 1:(((indepVarSpan(end) - indepVarSpan(1))/step)-1)
-    %Call RK2 step to advance the state forward
+    
     [indepVar(:, j+1), state(:, j+1)] = RK2Step(derivsRK, indepVar(:,j), step, state(:, j));
+    
+    
+    
 end
 
-%Transpose to return column vectors
 indepVar = indepVar';
 state = state';
 end
